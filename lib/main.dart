@@ -6,7 +6,6 @@ import 'package:notes/firebase_options.dart';
 import 'package:notes/view/login_view.dart';
 import 'package:notes/view/register_view.dart';
 import 'package:notes/view/verify_email.dart';
-import 'dart:developer' as devtools show log;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -114,7 +113,7 @@ Future<bool> showlogOutDialog(BuildContext context) {
       builder: (context) {
         return AlertDialog(
           title: const Text("Log Out"),
-          content: const Text("Are you sure wnat to logout?"),
+          content: const Text("Are you sure want to logout?"),
           actions: [
             TextButton(
               onPressed: () {

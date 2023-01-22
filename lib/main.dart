@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
       ),
       home: const HomePage(),
       routes: {
-        loginroute: (context) => const LoginView(),
-        registerroute: (context) => const RegisterView(),
-        notesroute: (context) => const NotesView(),
+        loginRoute: (context) => const LoginView(),
+        signupRoute: (context) => const RegisterView(),
+        notesRoute: (context) => const NotesView(),
       },
     );
   }
@@ -85,7 +85,7 @@ class _NotesViewState extends State<NotesView> {
                   if (shouldLogout) {
                     await FirebaseAuth.instance.signOut();
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/login/',
+                      loginRoute,
                       (_) => false,
                     );
                   }

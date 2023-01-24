@@ -83,7 +83,7 @@ class _RegisterViewState extends State<RegisterView> {
                 } else if (e.code == 'network-request-failed') {
                   await showErrorDialog(
                     context,
-                    "Network Request Failed",
+                    "Connect to internet",
                   );
                 } else {
                   await showErrorDialog(

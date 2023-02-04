@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:notes/services/auth/auth_service.dart';
-
 import '../constants/routes.dart';
 import '../enums/menu_action.dart';
 
@@ -44,7 +43,7 @@ class _NotesViewState extends State<NotesView> {
           )
         ],
       ),
-      body: const Text("Hello World"),
+      body: const Text('Hello'),
     );
   }
 }

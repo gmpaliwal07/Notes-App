@@ -4,7 +4,7 @@ class UnableToGetDocumentsDirectory implements Exception {}
 
 class DatabaseIsNotOpen implements Exception {}
 
-class CloudNotDeleteUser implements Exception {}
+class CouldNotDeleteUser implements Exception {}
 
 class UserAlreadyExists implements Exception {}
 

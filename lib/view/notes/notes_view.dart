@@ -22,12 +22,6 @@ class _NotesViewState extends State<NotesView> {
   }
 
   @override
-  void dispose() {
-    _notesService.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +52,7 @@ class _NotesViewState extends State<NotesView> {
               return const [
                 PopupMenuItem(
                   value: MenuAction.logout,
-                  child: Text("Log out"),
+                  child: Text("Logout"),
                 )
               ];
             },
@@ -76,7 +70,13 @@ class _NotesViewState extends State<NotesView> {
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                     case ConnectionState.active:
-                      return const Text("Waiting for all Notes ....");
+                      if (snapshot.hasData) {
+                        final allNotes = snapshot.data as List<DatabaseNote>;
+                        print(allNotes);
+                        return const Text('Got All notes');
+                      } else {
+                        return const CircularProgressIndicator();
+                      }
 
                     default:
                       return const CircularProgressIndicator();

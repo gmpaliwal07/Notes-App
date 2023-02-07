@@ -8,10 +8,10 @@ class CouldNotDeleteUser implements Exception {}
 
 class UserAlreadyExists implements Exception {}
 
-class CouldNotFoundUser implements Exception {}
+class CouldNotFindUser implements Exception {}
 
 class CouldNotDeleteNote implements Exception {}
 
-class CouldNotFoundNotes implements Exception {}
+class CouldNotFindNote implements Exception {}
 
 class CouldNotUpdateNote implements Exception {}

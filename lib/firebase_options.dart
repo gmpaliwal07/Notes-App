@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '460240201922',
     projectId: 'my-first-flutter-app-project',
     storageBucket: 'my-first-flutter-app-project.appspot.com',
-    iosClientId: '460240201922-8k6cgrn7h8cr1hf0d3621gebki0fav06.apps.googleusercontent.com',
+    iosClientId:
+        '460240201922-8k6cgrn7h8cr1hf0d3621gebki0fav06.apps.googleusercontent.com',
     iosBundleId: 'com.flutterapp.notes',
   );
 }

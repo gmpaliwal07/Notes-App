@@ -32,7 +32,7 @@ class FirebaseCloudStorage {
       notes.snapshots().map(
             (event) => event.docs
                 .map((doc) => CloudNote.fromSnapshot(doc))
-                .where((notes) => notes.ownerId == ownerUserId),
+                .where((notes) => notes.ownerUserId == ownerUserId),
           );
 
 // getNote
@@ -45,15 +45,7 @@ class FirebaseCloudStorage {
           )
           .get()
           .then(
-            (value) => value.docs.map(
-              (doc) {
-                return CloudNote(
-                  documentId: doc.id,
-                  ownerId: doc.data()[ownerUserIdFieldName] as String,
-                  text: doc.data()[textFieldName] as String,
-                );
-              },
-            ),
+            (value) => value.docs.map((doc) => CloudNote.fromSnapshot(doc)),
           );
     } catch (e) {
       throw CouldNotGetAllNoteException();
@@ -61,11 +53,19 @@ class FirebaseCloudStorage {
   }
 
   //create Note
-  void createNote({required String ownerUserId}) async {
-    await notes.add({
+  Future<CloudNote> createNewNote({required String ownerUserId}) async {
+    final document = await notes.add({
       ownerUserIdFieldName: ownerUserId,
       textFieldName: '',
     });
+
+    final fetchedNote = await document.get();
+
+    return CloudNote(
+      documentId: fetchedNote.id,
+      ownerUserId: ownerUserId,
+      text: ' ',
+    );
   }
 
   // syntax of  SingleTon

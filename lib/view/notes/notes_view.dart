@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes/services/auth/auth_service.dart';
 import 'package:notes/services/cloud/cloud_note.dart';
-import 'package:notes/services/cloud/cloud_storage_constants.dart';
+
 import 'package:notes/services/cloud/firebase_cloud_storage.dart';
 import 'package:notes/utilities/dialogs/logout_dialog.dart';
 import 'package:notes/view/notes/notes_list_view.dart';

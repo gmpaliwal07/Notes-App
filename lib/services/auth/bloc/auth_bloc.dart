@@ -27,6 +27,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             email: email,
             password: password,
           );
+          emit(const AuthStateLoggedOut(
+              exception: null,
+              isLoading: true,
+              loadingText: 'Please Wait ....'));
           await provider.sendEmailVerification();
           emit(const AuthStateUserVerification(isLoading: false));
         } on Exception catch (e) {

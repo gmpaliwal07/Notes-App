@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/services/auth/bloc/auth.state.dart';
 import 'package:notes/services/auth/bloc/auth_bloc.dart';
 import 'package:notes/services/auth/bloc/auth_event.dart';
@@ -30,6 +32,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateForgotPassword) {
@@ -45,37 +48,96 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Forgot Password"),
-        ),
+        resizeToAvoidBottomInset: false,
+        backgroundColor: const Color.fromARGB(255, 149, 179, 244),
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.fromLTRB(20, 100, 20, 0),
           child: Column(
-            children: [
-              const Text(
-                  "If you forgot your password, enter your email and we will send you a password reset link."),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Forgot",
+                style: GoogleFonts.robotoSlab(
+                    color: Colors.black,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold),
+              ),
+              Text(
+                "Password?",
+                style: GoogleFonts.robotoSlab(
+                    color: Colors.black,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              if (!isKeyboard)
+                SvgPicture.asset(
+                  "assets/images/forgotPassword.svg",
+                  height: 300,
+                  width: 300,
+                ),
+              const SizedBox(height: 16),
+              Text(
+                  "If you forgot your password, enter your email and we will send you a password reset link.",
+                  style: GoogleFonts.robotoSlab(
+                      fontSize: 17,
+                      color: const Color.fromARGB(255, 36, 36, 36))),
+              const SizedBox(height: 16),
               TextField(
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
                 autofocus: true,
                 controller: _controller,
-                decoration: const InputDecoration(
-                  hintText: "Enter you email address",
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.alternate_email_rounded),
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  contentPadding: const EdgeInsets.all(20.0),
+                  fillColor: Colors.white,
+                  hintText: "Enter email",
+                  filled: true,
+                  focusColor: Colors.deepPurpleAccent.shade200,
                 ),
               ),
-              TextButton(
-                  onPressed: () {
-                    final email = _controller.text;
-                    context.read<AuthBloc>().add(
-                          AuthEventForgotPassword(email: email),
-                        );
-                  },
-                  child: const Text("Send Link")),
-              TextButton(
-                  onPressed: () {
-                    context.read<AuthBloc>().add(const AuthEventLogOut());
-                  },
-                  child: const Text("Back to login"))
+              const SizedBox(height: 16),
+              Center(
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(327, 50),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
+                        shadowColor: const Color.fromARGB(255, 179, 200, 247),
+                        elevation: 10,
+                        backgroundColor: Colors.deepPurpleAccent.shade200),
+                    onPressed: () {
+                      final email = _controller.text;
+                      context.read<AuthBloc>().add(
+                            AuthEventForgotPassword(email: email),
+                          );
+                    },
+                    child: Text("Send Link",
+                        style: GoogleFonts.robotoSlab(
+                            fontSize: 20, fontWeight: FontWeight.normal))),
+              ),
+              const SizedBox(height: 16),
+              Center(
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(327, 50),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(50))),
+                        shadowColor: const Color.fromARGB(255, 179, 200, 247),
+                        elevation: 10,
+                        backgroundColor: Colors.deepPurpleAccent.shade200),
+                    onPressed: () {
+                      context.read<AuthBloc>().add(const AuthEventLogOut());
+                    },
+                    child: Text("Back to login",
+                        style: GoogleFonts.robotoSlab(
+                            fontSize: 20, fontWeight: FontWeight.normal))),
+              )
             ],
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/services/auth/auth_service.dart';
 import 'package:notes/services/auth/bloc/auth_bloc.dart';
 import 'package:notes/services/auth/bloc/auth_event.dart';
@@ -31,18 +32,36 @@ class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: const Text("Your Notes"),
-          actions: [
+          backgroundColor: const Color.fromARGB(255, 50, 0, 189),
+          title: Text(
+            "My Notes",
+            style: GoogleFonts.robotoSlab(
+                color: Colors.white, fontSize: 26, fontWeight: FontWeight.w400),
+          ),
+          actions: <Widget>[
             IconButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(
                   createUpdateNoteRoute,
                 );
               },
-              icon: const Icon(Icons.add),
+              icon: const Icon(
+                Icons.add_circle_outline_rounded,
+                size: 35,
+              ),
             ),
             PopupMenuButton<MenuAction>(
+              shadowColor: const Color.fromARGB(255, 149, 179, 244),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(8.0),
+                  bottomRight: Radius.circular(8.0),
+                  topLeft: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0),
+                ),
+              ),
               onSelected: (value) async {
                 switch (value) {
                   case MenuAction.logout:
@@ -84,11 +103,14 @@ class _NotesViewState extends State<NotesView> {
                     },
                   );
                 } else {
-                  return const CircularProgressIndicator();
+                  return CircularProgressIndicator(
+                      color: Colors.deepPurpleAccent.shade200);
                 }
 
               default:
-                return const CircularProgressIndicator();
+                return CircularProgressIndicator(
+                  color: Colors.deepPurpleAccent.shade200,
+                );
             }
           },
         ));

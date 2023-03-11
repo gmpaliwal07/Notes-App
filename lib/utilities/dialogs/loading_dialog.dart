@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 typedef CloseDialog = void Function();
 CloseDialog showLoadingDialog({
@@ -9,11 +10,17 @@ CloseDialog showLoadingDialog({
     content: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const CircularProgressIndicator(),
+        CircularProgressIndicator(
+          color: Colors.deepPurpleAccent.shade200,
+        ),
         const SizedBox(
           height: 10.0,
         ),
-        Text(text),
+        Text(text,
+            style: GoogleFonts.robotoSlab(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                color: Colors.deepPurpleAccent.shade200)),
       ],
     ),
   );

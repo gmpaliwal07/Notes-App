@@ -47,6 +47,8 @@ dependencies:
   flutter_bloc: ^8.1.2
   equatable: ^2.0.5
   flutter_launcher_icons: ^0.12.0
+  flutter_svg: ^2.0.3
+  google_fonts: ^4.0.3
   
 
 dev_dependencies:
@@ -72,6 +74,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  assets:
+    - assets/images/authScreen.svg
+    - assets/images/verifyEmail.svg
+    - assets/images/forgotPassword.svg
+    - assets/images/backgroundImage.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

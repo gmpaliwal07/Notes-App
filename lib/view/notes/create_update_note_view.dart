@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:notes/services/auth/auth_service.dart';
 import 'package:notes/services/cloud/cloud_note.dart';
 import 'package:notes/services/cloud/firebase_cloud_storage.dart';
@@ -95,7 +96,12 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New Note'),
+        backgroundColor: const Color.fromARGB(255, 50, 0, 189),
+        title: Text(
+          'New Note',
+          style:
+              GoogleFonts.robotoSlab(fontSize: 26, fontWeight: FontWeight.w500),
+        ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -106,29 +112,51 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
                 Share.share(text);
               }
             },
-            icon: const Icon(Icons.share_outlined),
+            icon: const Icon(
+              Icons.share_outlined,
+              size: 30,
+            ),
           )
         ],
       ),
-      body: FutureBuilder(
-        future: createOrGetExistingNote(context),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              _setupTextControllerListener();
-              return TextField(
-                controller: _textController,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: const InputDecoration(hintText: 'Write your Note'),
-              );
+      body: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/backgroundImage.png"),
+                fit: BoxFit.cover)),
+        child: FutureBuilder(
+          future: createOrGetExistingNote(context),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                _setupTextControllerListener();
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 30, 16, 665),
+                  child: TextField(
+                      controller: _textController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        contentPadding: const EdgeInsets.all(20.0),
+                        fillColor: Colors.white,
+                        hintText: "Write you new Note",
+                        filled: true,
+                        focusColor: Colors.deepPurpleAccent.shade200,
+                      )),
+                );
 
-            default:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-          }
-        },
+              default:
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.deepPurpleAccent.shade200,
+                  ),
+                );
+            }
+          },
+        ),
       ),
     );
   }

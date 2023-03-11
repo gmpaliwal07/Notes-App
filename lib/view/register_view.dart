@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:notes/services/auth/auth_exceptions.dart';
 
@@ -18,7 +20,7 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
-
+  bool isPasswordVisible = true;
   @override
   void initState() {
     _email = TextEditingController();
@@ -35,6 +37,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateRegistring) {
@@ -55,36 +58,90 @@ class _RegisterViewState extends State<RegisterView> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Register"),
-        ),
+        resizeToAvoidBottomInset: false,
+        backgroundColor: const Color.fromARGB(255, 149, 179, 244),
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.fromLTRB(20, 100, 20, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Register with your Email",
-                  style: TextStyle(fontSize: 20)),
+            children: <Widget>[
+              Text(
+                "Sign Up",
+                style: GoogleFonts.robotoSlab(
+                    color: Colors.black,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 9),
+              Text(
+                "Let's create a new account . . .",
+                style: GoogleFonts.robotoSlab(
+                  color: Colors.black,
+                  fontSize: 17,
+                ),
+              ),
+              const SizedBox(height: 16),
+              if (!isKeyboard)
+                SvgPicture.asset(
+                  "assets/images/authScreen.svg",
+                  height: 300,
+                  width: 300,
+                ),
+              const SizedBox(height: 16),
               TextField(
                 controller: _email,
                 enableSuggestions: false,
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
-                decoration: const InputDecoration(hintText: "Enter email"),
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.alternate_email_sharp),
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  contentPadding: const EdgeInsets.all(20.0),
+                  fillColor: Colors.white,
+                  hintText: "Enter email",
+                  filled: true,
+                  focusColor: Colors.deepPurpleAccent.shade200,
+                ),
                 autofocus: true,
               ),
+              const SizedBox(height: 16),
               TextField(
-                obscureText: true,
+                obscureText: isPasswordVisible,
                 enableSuggestions: false,
                 autocorrect: false,
                 controller: _password,
-                decoration: const InputDecoration(hintText: "Enter Password"),
+                decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.all(20.0),
+                    hintText: "Enter Password",
+                    prefixIcon: const Icon(Icons.lock_rounded),
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(
+                              () => isPasswordVisible = !isPasswordVisible);
+                        },
+                        icon: isPasswordVisible
+                            ? const Icon(Icons.visibility_off_rounded)
+                            : const Icon(Icons.visibility_rounded)),
+                    border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    fillColor: Colors.white,
+                    filled: true),
                 autofocus: true,
               ),
+              const SizedBox(height: 16),
               Center(
                 child: Column(
                   children: [
-                    TextButton(
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(327, 50),
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(50))),
+                          shadowColor: const Color.fromARGB(255, 179, 200, 247),
+                          elevation: 10,
+                          backgroundColor: Colors.deepPurpleAccent.shade200),
                       onPressed: () async {
                         final email = _email.text;
                         final password = _password.text;
@@ -93,13 +150,33 @@ class _RegisterViewState extends State<RegisterView> {
                               password,
                             ));
                       },
-                      child: const Text('Register'),
+                      child: Text(
+                        'Register',
+                        style: GoogleFonts.robotoSlab(
+                            fontSize: 20, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(327, 50),
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50))),
+                            shadowColor:
+                                const Color.fromARGB(255, 179, 200, 247),
+                            elevation: 10,
+                            backgroundColor: Colors.deepPurpleAccent.shade200),
                         onPressed: () {
                           context.read<AuthBloc>().add(const AuthEventLogOut());
                         },
-                        child: const Text("Login"))
+                        child: Text(
+                          "Back to Login",
+                          style: GoogleFonts.robotoSlab(
+                              fontSize: 20, fontWeight: FontWeight.normal),
+                        ))
                   ],
                 ),
               ),

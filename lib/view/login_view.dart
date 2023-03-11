@@ -5,7 +5,6 @@ import 'package:notes/services/auth/bloc/auth.state.dart';
 import 'package:notes/services/auth/bloc/auth_bloc.dart';
 import 'package:notes/services/auth/bloc/auth_event.dart';
 import 'package:notes/utilities/dialogs/error_dialog.dart';
-import 'package:notes/utilities/dialogs/loading_dialog.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -38,7 +37,8 @@ class _LoginViewState extends State<LoginView> {
       listener: (context, state) async {
         if (state is AuthStateLoggedOut) {
           if (state.exception is UserNotFoundAuthException) {
-            await showErrorDialog(context, 'User Not Found');
+            await showErrorDialog(
+                context, 'Can not find user with this credentials!');
           } else if (state.exception is WrongPasswordAuthException) {
             await showErrorDialog(context, 'Incorrect Credentials');
           } else if (state.exception is GenericAuthException) {
@@ -48,41 +48,55 @@ class _LoginViewState extends State<LoginView> {
       },
       child: Scaffold(
         appBar: AppBar(title: const Text('Login')),
-        body: Column(
-          children: [
-            TextField(
-              controller: _email,
-              enableSuggestions: false,
-              keyboardType: TextInputType.emailAddress,
-              autocorrect: false,
-              decoration: const InputDecoration(hintText: "Enter email"),
-            ),
-            TextField(
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              controller: _password,
-              decoration: const InputDecoration(hintText: "Enter Password"),
-            ),
-            TextButton(
-              onPressed: () {
-                final email = _email.text;
-                final password = _password.text;
-                context.read<AuthBloc>().add(AuthEventLogIn(
-                      email,
-                      password,
-                    ));
-              },
-              child: const Text('Login'),
-            ),
-            TextButton(
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const Text("Log In to your account ",
+                  style: TextStyle(
+                    fontSize: 20,
+                  )),
+              TextField(
+                controller: _email,
+                enableSuggestions: false,
+                keyboardType: TextInputType.emailAddress,
+                autocorrect: false,
+                decoration: const InputDecoration(hintText: "Enter email"),
+              ),
+              TextField(
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                controller: _password,
+                decoration: const InputDecoration(hintText: "Enter Password"),
+              ),
+              TextButton(
                 onPressed: () {
-                  context.read<AuthBloc>().add(
-                        const AuthEventShouldRegister(),
-                      );
+                  final email = _email.text;
+                  final password = _password.text;
+                  context.read<AuthBloc>().add(AuthEventLogIn(
+                        email,
+                        password,
+                      ));
                 },
-                child: const Text("Not registered yet? Register here!"))
-          ],
+                child: const Text('Login'),
+              ),
+              TextButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(
+                          const AuthEventShouldRegister(),
+                        );
+                  },
+                  child: const Text("Not Registered yet? Register here")),
+              TextButton(
+                  onPressed: () {
+                    context
+                        .read<AuthBloc>()
+                        .add(const AuthEventForgotPassword());
+                  },
+                  child: const Text("Forgot Password"))
+            ],
+          ),
         ),
       ),
     );

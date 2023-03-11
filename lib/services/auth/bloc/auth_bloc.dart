@@ -6,6 +6,17 @@ import 'package:notes/services/auth/bloc/auth_event.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(AuthProvider provider)
       : super(const AuthStateUnitialized(isLoading: true)) {
+    //should register
+    on<AuthEventShouldRegister>(
+      (event, emit) {
+        emit(
+          const AuthStateRegistring(
+            exception: null,
+            isLoading: false,
+          ),
+        );
+      },
+    );
     //register
     on<AuthEventRegister>(
       (event, emit) async {
@@ -77,7 +88,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    //logout
+//logout
     on<AuthEventLogOut>((event, emit) async {
       try {
         await provider.logOut();
@@ -89,5 +100,44 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ));
       }
     });
+
+// forgot password
+
+    on<AuthEventForgotPassword>(
+      (event, emit) async {
+        emit(const AuthStateForgotPassword(
+          exception: null,
+          hasSentEmail: false,
+          isLoading: false,
+        ));
+        final email = event.email;
+        if (email == null) {
+          return;
+        }
+
+        //user accutally want to reset password
+        emit(const AuthStateForgotPassword(
+          exception: null,
+          hasSentEmail: false,
+          isLoading: true,
+        ));
+        bool didSendEmail;
+        Exception? exception;
+        try {
+          await provider.sendPasswordReset(toEmail: email);
+          didSendEmail = true;
+          exception = null;
+        } on Exception catch (e) {
+          didSendEmail = false;
+          exception = e;
+        }
+
+        emit(AuthStateForgotPassword(
+          exception: exception,
+          hasSentEmail: didSendEmail,
+          isLoading: false,
+        ));
+      },
+    );
   }
 }

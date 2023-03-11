@@ -9,6 +9,7 @@ import 'package:notes/view/login_view.dart';
 import 'package:notes/view/notes/create_update_note_view.dart';
 import 'package:notes/view/notes/notes_view.dart';
 import 'package:notes/view/register_view.dart';
+
 import 'package:notes/view/verify_email.dart';
 
 void main() {
@@ -30,10 +31,6 @@ class MyApp extends StatelessWidget {
         child: const HomePage(),
       ),
       routes: {
-        loginRoute: (context) => const LoginView(),
-        signupRoute: (context) => const RegisterView(),
-        notesRoute: (context) => const NotesView(),
-        verifyRoute: (context) => const VerifyEmailView(),
         createUpdateNoteRoute: (context) => const CreateUpdateNoteView(),
       },
     );
@@ -54,6 +51,8 @@ class HomePage extends StatelessWidget {
           return const VerifyEmailView();
         } else if (state is AuthStateLoggedOut) {
           return const LoginView();
+        } else if (state is AuthStateRegistring) {
+          return const RegisterView();
         } else {
           return const Scaffold(
             body: CircularProgressIndicator(),

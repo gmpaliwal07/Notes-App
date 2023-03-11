@@ -95,6 +95,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 50, 0, 189),
         title: Text(
@@ -131,7 +132,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
               case ConnectionState.done:
                 _setupTextControllerListener();
                 return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 30, 16, 665),
+                  padding: const EdgeInsets.fromLTRB(16, 30, 16, 666),
                   child: TextField(
                       controller: _textController,
                       keyboardType: TextInputType.multiline,

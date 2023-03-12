@@ -1,4 +1,4 @@
-# notes
+# Quick Note
 
 A new Flutter project.
 

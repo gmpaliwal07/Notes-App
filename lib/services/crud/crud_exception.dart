@@ -17,3 +17,7 @@
 // class CouldNotUpdateNote implements Exception {}
 
 // class UserShouldBeSetBeforeReadingAllNotes implements Exception {}
+
+
+
+// crud exception
